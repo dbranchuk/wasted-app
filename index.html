@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой сайт</title>
+    <title>Wasted</title>
     <style>
         * {
             margin: 0;
@@ -12,316 +12,127 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #2c3e50;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        header {
             text-align: center;
-            margin-bottom: 60px;
+            padding: 40px 20px;
         }
 
-        .project-title {
-            font-size: 3.5rem;
+        .title {
+            font-size: 4rem;
             font-weight: 700;
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 10px;
-            letter-spacing: -1px;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.9);
-            font-weight: 300;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
             margin-bottom: 60px;
+            letter-spacing: -2px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 300px;
+            margin: 0 auto;
         }
 
         .btn {
-            display: inline-block;
-            padding: 14px 32px;
-            background: white;
-            color: #667eea;
+            display: block;
+            padding: 18px 40px;
+            background: rgba(255,255,255,0.1);
+            color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            background: rgba(255,255,255,0.95);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.4);
         }
 
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border-color: rgba(255,255,255,0.3);
+        .btn:active {
+            transform: translateY(-1px);
         }
 
-        .btn-outline:hover {
-            background: rgba(255,255,255,0.1);
-            color: white;
+        .btn:nth-child(1) {
+            animation: slideInUp 0.6s ease-out;
         }
 
-        main {
-            background: white;
-            border-radius: 20px;
-            padding: 50px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            margin-top: 20px;
+        .btn:nth-child(2) {
+            animation: slideInUp 0.6s ease-out 0.1s both;
         }
 
-        .section-title {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            position: relative;
+        .btn:nth-child(3) {
+            animation: slideInUp 0.6s ease-out 0.2s both;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 2px;
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .project-card {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 15px;
-            text-decoration: none;
-            color: #2c3e50;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border-color: #667eea;
-        }
-
-        .project-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: #667eea;
-        }
-
-        .project-card p {
-            color: #6c757d;
-            margin-bottom: 15px;
-        }
-
-        .project-link {
-            color: #667eea;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .project-link::after {
-            content: '→';
-            transition: transform 0.3s ease;
-        }
-
-        .project-link:hover::after {
-            transform: translateX(3px);
-        }
-
-        .contact-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
-        }
-
-        .contact-item svg {
-            width: 24px;
-            height: 24px;
-            color: #667eea;
-        }
-
-        .contact-item a {
-            color: #2c3e50;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .contact-item a:hover {
-            color: #667eea;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            color: rgba(255,255,255,0.7);
-            font-size: 0.9rem;
-        }
-
-        .emoji {
-            display: inline-block;
-            margin-right: 8px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px 15px;
+        @media (max-width: 480px) {
+            .title {
+                font-size: 3rem;
+                margin-bottom: 40px;
             }
 
-            .project-title {
-                font-size: 2.5rem;
-            }
-
-            main {
-                padding: 30px 25px;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-                align-items: center;
+            .buttons {
+                gap: 20px;
             }
 
             .btn {
-                width: 200px;
+                padding: 16px 30px;
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1 class="project-title">
-                <span class="emoji">👋</span>Мой сайт
-            </h1>
-            <p class="subtitle">Здесь будет мое портфолио и проекты</p>
-        </header>
+        <h1 class="title">Wasted</h1>
 
-        <div class="nav-buttons">
-            <a href="#contact" class="btn">Связь</a>
-            <a href="#terms" class="btn btn-outline">Условия пользования</a>
+        <div class="buttons">
+            <a href="#" class="btn">Download</a>
+            <a href="#" class="btn">Features</a>
+            <a href="#" class="btn">Contact</a>
         </div>
-
-        <main>
-            <section>
-                <h2 class="section-title">
-                    <span class="emoji">📁</span>Мои проекты
-                </h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <h3>Проект 1</h3>
-                        <p>Описание первого проекта. Здесь можно рассказать о технологиях, которые использовались, и что было сделано.</p>
-                        <a href="https://github.com/ВАШ_USERNAME/ПРОЕКТ" class="project-link">Посмотреть на GitHub</a>
-                    </div>
-                    <div class="project-card">
-                        <h3>Проект 2</h3>
-                        <p>Описание второго проекта. Расскажите о его особенностях и достижениях.</p>
-                        <a href="https://github.com/ВАШ_USERNAME/ПРОЕКТ2" class="project-link">Посмотреть на GitHub</a>
-                    </div>
-                </div>
-            </section>
-
-            <section id="contact">
-                <h2 class="section-title">
-                    <span class="emoji">📧</span>Связаться
-                </h2>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                        </svg>
-                        <div>
-                            <strong>Email:</strong><br>
-                            <a href="mailto:ваш@email.com">ваш@email.com</a>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                        <div>
-                            <strong>GitHub:</strong><br>
-                            <a href="https://github.com/ВАШ_USERNAME" target="_blank">@ВАШ_USERNAME</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="terms" style="margin-top: 50px;">
-                <h2 class="section-title">
-                    <span class="emoji">📋</span>Условия пользования
-                </h2>
-                <div style="background: #f8f9fa; padding: 30px; border-radius: 15px; line-height: 1.7;">
-                    <h3 style="color: #2c3e50; margin-bottom: 15px;">1. Общие положения</h3>
-                    <p style="color: #6c757d; margin-bottom: 20px;">
-                        Используя этот сайт, вы соглашаетесь с настоящими условиями пользования.
-                        Если вы не согласны с какими-либо условиями, пожалуйста, не используйте сайт.
-                    </p>
-
-                    <h3 style="color: #2c3e50; margin-bottom: 15px;">2. Контент</h3>
-                    <p style="color: #6c757d; margin-bottom: 20px;">
-                        Весь контент на этом сайте предоставляется исключительно в информационных целях.
-                        Автор не несет ответственности за использование информации посетителями сайта.
-                    </p>
-
-                    <h3 style="color: #2c3e50; margin-bottom: 15px;">3. Конфиденциальность</h3>
-                    <p style="color: #6c757d;">
-                        Мы уважаем вашу конфиденциальность и не собираем личную информацию без вашего согласия.
-                    </p>
-                </div>
-            </section>
-        </main>
     </div>
-
-    <footer>
-        <p>&copy; 2024 Мой сайт. Все права защищены.</p>
-    </footer>
 </body>
 </html>
