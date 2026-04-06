@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Wasted & TickScanner — boroda.dev</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 10% 30%, #0B1120, #030712);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Анимированные орбы */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: 0;
+            animation: floatOrb 18s infinite alternate ease-in-out;
+        }
+
+        .orb1 {
+            width: 50vw;
+            height: 50vw;
+            background: #ff4757;
+            top: -20vh;
+            left: -20vw;
+            animation-duration: 22s;
+        }
+
+        .orb2 {
+            width: 60vw;
+            height: 60vw;
+            background: #2ed573;
+            bottom: -30vh;
+            right: -25vw;
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
+
+        .orb3 {
+            width: 40vw;
+            height: 40vw;
+            background: #1e90ff;
+            top: 40%;
+            left: 60%;
+            animation-duration: 19s;
+            animation-delay: -2s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            100% { transform: translate(5%, 8%) scale(1.2); opacity: 0.6; }
+        }
+
+        /* Главная карточка */
+        .glass-card {
+            position: relative;
+            z-index: 10;
+            max-width: 720px;
+            width: 100%;
+            background: rgba(10, 16, 30, 0.65);
+            backdrop-filter: blur(18px);
+            border-radius: 2.5rem;
+            padding: 2rem 2rem 1.8rem 2rem;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06);
+            transition: transform 0.3s ease;
+            animation: fadeSlideUp 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+        }
+
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Верхняя часть полностью убрана, только отступ */
+        .brand {
+            display: none;
+        }
+
+        /* Карточки приложений */
+        .apps-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+            margin: 0.5rem 0 1.5rem;
+        }
+
+        .app-item {
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 2rem;
+            backdrop-filter: blur(4px);
+            padding: 1.2rem 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            transition: all 0.25s ease;
+            border: 1px solid rgba(255,255,255,0.08);
+            animation: cardReveal 0.45s backwards;
+            animation-delay: calc(0.1s * var(--order, 1));
+        }
+
+        .app-item:hover {
+            background: rgba(30, 41, 59, 0.75);
+            border-color: rgba(255,94,98,0.5);
+            transform: scale(1.01) translateX(5px);
+        }
+
+        .app-info {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #1E293B, #0F172A);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #FF8A8F;
+            box-shadow: 0 10px 15px -5px rgba(0,0,0,0.4);
+        }
+
+        .app-title {
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: #F1F5F9;
+            letter-spacing: -0.2px;
+        }
+
+        .app-category {
+            font-size: 0.75rem;
+            color: #8DA0BB;
+            display: flex;
+            gap: 16px;
+            margin-top: 6px;
+        }
+
+        .app-category i {
+            width: 16px;
+        }
+
+        .btn-download {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 24px;
+            border-radius: 44px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(12px);
+            text-decoration: none;
+        }
+
+        .btn-download i {
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+
+        .btn-download:hover {
+            background: #FF5E62;
+            border-color: transparent;
+            box-shadow: 0 10px 20px rgba(255,94,98,0.3);
+            gap: 14px;
+        }
+
+        .btn-download:hover i {
+            transform: translateY(-2px);
+        }
+
+        /* Нижний колонтитул — только boroda.dev */
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #6F8FAC;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 1.4rem;
+            letter-spacing: 0.3px;
+        }
+
+        footer i {
+            margin-right: 6px;
+            color: #FF8A8F;
+        }
+
+        @keyframes cardReveal {
+            from { opacity: 0; transform: translateX(-18px);}
+            to { opacity: 1; transform: translateX(0);}
+        }
+
+        @media (max-width: 600px) {
+            .glass-card { padding: 1.4rem; }
+            .app-item { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .btn-download { align-self: flex-start; }
+            .app-icon { width: 50px; height: 50px; font-size: 26px; }
+            .app-title { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <div class="glass-card">
+        <!-- Верхняя часть (Wasted и smart tools) ПОЛНОСТЬЮ УБРАНА -->
+
+        <div class="apps-grid">
+            <!-- ПРИЛОЖЕНИЕ 1: Wasted Money Manager (iOS 18+) -->
+            <div class="app-item" style="--order:1">
+                <div class="app-info">
+                    <div class="app-icon">
+                        <i class="fas fa-wastebasket"></i>
+                    </div>
+                    <div>
+                        <div class="app-title">Wasted Money Manager</div>
+                        <div class="app-category">
+                            <span><i class="fas fa-chart-line"></i> Финансы</span>
+                            <span><i class="fab fa-apple"></i> iOS 18+</span>
+                            <span><i class="fas fa-shield-alt"></i> 0 сбор данных</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://apps.apple.com/us/app/wasted-money-manager/id6752341613" target="_blank" class="btn-download">
+                    <i class="fab fa-apple"></i> Скачать
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- ПРИЛОЖЕНИЕ 2: TickScanner (Проверка клещей) -->
+            <div class="app-item" style="--order:2">
+                <div class="app-info">
+                    <div class="app-icon">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <div>
+                        <div class="app-title">TickScanner</div>
+                        <div class="app-category">
+                            <span><i class="fas fa-paw"></i> Для питомцев</span>
+                            <span><i class="fab fa-apple"></i> iOS 26+</span>
+                            <span><i class="fas fa-camera"></i> AI-поиск</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://apps.apple.com/by/app/tickscanner-%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0-%D0%BA%D0%BB%D0%B5%D1%89%D0%B5%D0%B9/id6759345865" target="_blank" class="btn-download">
+                    <i class="fab fa-apple"></i> Скачать
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Нижний колонтитул: boroda.dev -->
+        <footer>
+            <i class="fas fa-code"></i> boroda.dev
+        </footer>
+    </div>
+
+    <script>
+        // Небольшой эффект для динамического года (опционально, но оставим атмосферу)
+        const footer = document.querySelector('footer');
+        if (footer && !footer.innerHTML.includes('2026')) {
+            // можно добавить год, если нужно, но оставляю как есть "boroda.dev"
+        }
+        console.log('🔥 Визитка boroda.dev | Wasted + TickScanner');
+    </script>
+</body>
+</html>
